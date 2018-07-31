@@ -6,7 +6,7 @@ print('''Enter any year from 1950 to current year
  to get a list of best movies of all time enter 0''')
 strr=input("input year : ")
 url='https://www.rottentomatoes.com/top/bestofrt/?year='+strr
-if str=='0':
+if strr=='0':
     url='https://www.rottentomatoes.com/top/bestofrt/'
 client=urlopen(url)
 page_html=client.read()
@@ -15,8 +15,19 @@ client.close()
 containe=soup.find('table',class_='table')
 movie_names=containe.find_all(class_='unstyled articleLink')
 j=0
-for i in movie_names:
-    j=j+1
-    k=str(j)
-    print(k+".)"+i.string,end=' ')
-    print("")
+movie_ratings=containe.find_all('span',class_='tMeterScore')
+filename="movies_"+strr+".csv"
+f=open(filename,'w')
+f.write("S.No, Name , Ratings\n")
+for i in range(0,100):
+
+    f.write(str((i+1))+","+movie_names[i].string.strip()+","+movie_ratings[i].string+"\n")
+    print('''
+    
+    
+    ''')
+    print(str((i+1))+".)"+"Name : "+movie_names[i].string.strip())
+    print('')
+    print(" Ratings : "+movie_ratings[i].string+"/100",end=' ')
+
+f.close()
